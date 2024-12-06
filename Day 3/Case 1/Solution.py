@@ -1,0 +1,56 @@
+# Import require libraries
+import os
+import re
+
+# Class for solution
+class Solution():
+
+    def __init__(self):
+        self.input_path: str = "./Day 3/Case 1/Input.txt"
+        self.execute()
+
+    # Function to execute
+    def execute(self) -> int:
+        inputs = self.get_inputs(self.input_path)
+        return self.solve(inputs)
+        
+    # Function to get inputs
+    def get_inputs(self, file_path_in_dir: str) -> tuple[str]:
+        # Define the file path
+        curr_directory = os.getcwd()
+        file_path = os.path.join(curr_directory, file_path_in_dir)
+        # Read the file and process lines
+        with open(file_path, "r") as file:
+            input = file.read()
+        # Return a tuple representing the inputs
+        return (input, )
+
+    # Function to solve the problem
+    def solve(self, inputs: tuple[str]) -> int:
+        # Get the inputs
+        (input, ) = inputs
+        # Initialize result
+        result = 0
+        # Get the matching substrings
+        pattern = r"mul\((\d+),\s*(\d+)\)"
+        matches = self._find_substrings(pattern, input)
+        for match in matches:
+            if self._has_valid_len(match[0], match[1]):
+                result += match[0] * match[1]
+        # Get the result
+        return result
+    
+    # Function to get matching substrings
+    def _find_substrings(self, pattern: str, string: str) -> list[tuple[int, int]]:
+        matches = re.findall(pattern, string)
+        return [(int(a), int(b)) for a, b in matches]       
+
+    # Function to check length of numbers
+    def _has_valid_len(self, first_num: int, second_num: int) -> bool:
+        return (1 <= first_num <= 1000) and (1 <= second_num <= 1000) 
+
+    
+# Excecute the code
+if __name__ == "__main__":
+    result = Solution().execute()
+    print(result)
