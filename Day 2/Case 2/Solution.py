@@ -9,10 +9,9 @@ class Solution():
         self.execute()
 
     # Function to execute
-    def execute(self) -> None:
+    def execute(self) -> int:
         inputs = self.get_inputs(self.input_path)
-        result = self.solve(inputs)
-        print(result)
+        return self.solve(inputs)
         
     # Function to get inputs
     def get_inputs(self, file_path_in_dir: str) -> tuple[list[list[int]]]:
@@ -65,4 +64,5 @@ class Solution():
     
 # Excecute the code
 if __name__ == "__main__":
-    Solution()
+    result = Solution().execute()
+    print(result)
