@@ -6,7 +6,6 @@ class Solution():
 
     def __init__(self):
         self.input_path: str = "./Day 5/Case 2/Input.txt"
-        self.execute()
 
     # Function to execute
     def execute(self) -> int:
