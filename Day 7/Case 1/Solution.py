@@ -49,8 +49,7 @@ class Solution():
         # If last operator is addition and multiplication respectively
         addition_works = self._check_is_possible(output - input[-1], input[:-1])
         multiplication_works = self._check_is_possible(output // input[-1], input[:-1]) if output % input[-1] == 0 else False
-        concatenation_works = self._check_is_possible((output - input[-1]) / 10 ** len(str(input[-1])), input[:-1])
-        return addition_works or multiplication_works or concatenation_works
+        return addition_works or multiplication_works
 
 # Excecute the code
 if __name__ == "__main__":
