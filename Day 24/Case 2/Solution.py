@@ -25,15 +25,25 @@ class Solution:
                 if output[0] == 'z':
                     max_z = max(max_z, int(output[1:]))
         
-        check_func = lambda c, y: any(y == oper and c in (in_one, in_two) for in_one, oper, in_two, _, _ in lines)
-
-        result = sorted(out for in_one, oper, in_two, _, out in lines if
-            oper == "XOR" and all(d[0] not in 'xyz' for d in (in_one, in_two, out)) or
-            oper == "AND" and not "x00" in (in_one, in_two) and check_func(out, 'XOR') or
-            oper == "XOR" and not "x00" in (in_one, in_two) and check_func(out, 'OR') or
-            oper != "XOR" and out[0] == 'z' and out != f"z{max_z}")
+        result = set()
+        for input_one, oper, input_two, _, output in lines:
+            if output[0] == "z" and oper != "XOR" and output != f"z{max_z}":
+                result.add(output)
+            elif (
+                oper == "XOR"
+                and all(wire[0] not in ["x", "y", "z"] for wire in [output, input_one, input_two])
+            ):
+                result.add(output)
+            elif oper == "AND" and "x00" not in [input_one, input_two]:
+                for sub_input_one, sub_oper, sub_input_two, _, _ in lines:
+                    if (output == sub_input_one or output == sub_input_two) and sub_oper != "OR":
+                        result.add(output)
+            elif oper == "XOR":
+                for sub_input_one, sub_oper, sub_input_two, _, _ in lines:
+                    if (output == sub_input_one or output == sub_input_two) and sub_oper == "OR":
+                        result.add(output)
         
-        return ",".join(result)
+        return ",".join(sorted(result))
 
 # Excecute the code
 if __name__ == "__main__":
